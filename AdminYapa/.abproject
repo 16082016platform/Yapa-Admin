@@ -1,0 +1,45 @@
+{
+  "ProjectName": "AdminYapa",
+  "ProjectGuid": "4fc0157b-95a6-4332-bc78-5209d47572c6",
+  "projectVersion": 1,
+  "AppIdentifier": "com.telerik.AdminYapa",
+  "DisplayName": "AdminYapa",
+  "Author": "",
+  "Description": "AdminYapa",
+  "BundleVersion": "1.0",
+  "AndroidVersionCode": "1",
+  "iOSDeviceFamily": [
+    "1",
+    "2"
+  ],
+  "iOSBackgroundMode": [],
+  "ProjectTypeGuids": "{070BCB52-5A75-4F8C-A973-144AF0EAFCC9}",
+  "FrameworkVersion": "4.0.0",
+  "AndroidPermissions": [
+    "android.permission.INTERNET"
+  ],
+  "DeviceOrientations": [
+    "Portrait",
+    "Landscape"
+  ],
+  "AndroidHardwareAcceleration": "true",
+  "iOSStatusBarStyle": "Default",
+  "Framework": "Cordova",
+  "WP8TileTitle": "",
+  "WP8Publisher": "",
+  "WP8Capabilities": [
+    "ID_CAP_NETWORKING",
+    "ID_CAP_WEBBROWSERCOMPONENT"
+  ],
+  "WP8Requirements": [],
+  "WP8PublisherID": "{33500188-5d96-4689-a314-36a7fba49f8f}",
+  "WP8ProductID": "{85ad1a22-03e9-4d01-9f76-556856b98aec}",
+  "WPSdk": "8.0",
+  "WP8PackageIdentityName": "1234Telerik.AdminYapa",
+  "WP8WindowsPublisherName": "CN=Telerik",
+  "WP8SupportedResolutions": [
+    "ID_RESOLUTION_WVGA",
+    "ID_RESOLUTION_WXGA",
+    "ID_RESOLUTION_HD720P"
+  ]
+}
