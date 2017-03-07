@@ -240,7 +240,7 @@ app.localization.registerView('usuarios');
 
             },
             generarExcel: function (e) {
-                console.log(usuariosModel.get('dataSource'));
+                alert("Generando xls");
 
                 var rows = [{
                     cells: [
@@ -289,6 +289,8 @@ app.localization.registerView('usuarios');
                     });
                     //save the file as Excel file with extension xlsx
                     kendo.saveAs({ dataURI: workbook.toDataURL(), fileName: "Reporte.xlsx" });
+
+                    alert("Fin");
                 });
 
 
