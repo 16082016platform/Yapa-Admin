@@ -2,9 +2,11 @@
     <header data-role="header">
         <div data-role="navbar" class="header-text">
 
-            <span data-bind="text: strings.usuarios.title"></span>
+            <span>Usuarios</span>
 
-            <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="left" data-icon="drawer-button"></a>
+            <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="left"><span class="flaticon-three"></span></a>
+
+            <a data-role="button" data-rel="drawer" data-align="right" data-bind="source: usuariosModel.dataSource, events: {click: usuariosModel.generarExcel}"><span class="flaticon-excel-file"></span></a>
 
         </div>
     </header>
@@ -29,12 +31,20 @@
 
     <!-- END_CUSTOM_CODE_usuariosModel -->
     <script type="text/x-kendo-template" id="usuariosModelTemplate">
-        <div class="image-with-text">
+        <div>
             # data = app.usuarios.usuariosModel.fixHierarchicalData(data); #
-
-            <img src="#: data['DisplayNameUrl'] #">
-            <h3><span class="#: data.icon() #"></span>#: data['DisplayName'] #</h3>
-            <p>#: data['Username'] #</p>
+                <table style="width:100%">
+                    <tr>
+                        <td rowspan="3" class="flaticon-new-user" style="width:1px;font-size:50px;"></td>
+                        <td>#: data['Username'] #</td>
+                    </tr>
+                    <tr>
+                        <td>#: data['DisplayName'] #</td>
+                    </tr>
+                    <tr>
+                        <td>#: data['CreatedAt'] #</td>
+                    </tr>
+                </table>
         </div>
     </script>
 </div>

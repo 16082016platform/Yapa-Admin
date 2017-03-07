@@ -1,8 +1,8 @@
 'use strict';
 
 app.usuarios = kendo.observable({
-    onShow: function() {},
-    afterShow: function() {}
+    onShow: function () { },
+    afterShow: function () { }
 });
 app.localization.registerView('usuarios');
 
@@ -10,14 +10,14 @@ app.localization.registerView('usuarios');
 // Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes
 
 // END_CUSTOM_CODE_usuarios
-(function(parent) {
+(function (parent) {
     var dataProvider = app.data.backendServices,
         /// start global model properties
 
-        processImage = function(img) {
+        processImage = function (img) {
 
             function isAbsolute(img) {
-                if  (img && img.match(/http:\/\/|https:\/\/|data:|\/\//g)) {
+                if (img && img.match(/http:\/\/|https:\/\/|data:|\/\//g)) {
                     return true;
                 }
                 return false;
@@ -35,7 +35,7 @@ app.localization.registerView('usuarios');
         },
 
         /// end global model properties
-        fetchFilteredData = function(paramFilter, searchFilter) {
+        fetchFilteredData = function (paramFilter, searchFilter) {
             var model = parent.get('usuariosModel'),
                 dataSource;
 
@@ -64,9 +64,9 @@ app.localization.registerView('usuarios');
             }
         },
 
-        flattenLocationProperties = function(dataItem) {
+        flattenLocationProperties = function (dataItem) {
             var propName, propValue,
-                isLocation = function(value) {
+                isLocation = function (value) {
                     return propValue && typeof propValue === 'object' &&
                         propValue.longitude && propValue.latitude;
                 };
@@ -88,7 +88,7 @@ app.localization.registerView('usuarios');
                 typeName: 'Users',
                 dataProvider: dataProvider
             },
-            change: function(e) {
+            change: function (e) {
                 var data = this.data();
                 for (var i = 0; i < data.length; i++) {
                     var dataItem = data[i];
@@ -96,13 +96,15 @@ app.localization.registerView('usuarios');
                     dataItem['DisplayNameUrl'] =
                         processImage(dataItem['DisplayName']);
 
+                    dataItem['CreatedAt'] = kendo.toString(new Date(dataItem['CreatedAt']), "dddd dd/MM/yyyy  hh:mm tt");
+
                     /// start flattenLocation property
                     flattenLocationProperties(dataItem);
                     /// end flattenLocation property
 
                 }
             },
-            error: function(e) {
+            error: function (e) {
 
                 if (e.xhr) {
                     var errorText = "";
@@ -119,14 +121,36 @@ app.localization.registerView('usuarios');
                     fields: {
                         'DisplayName': {
                             field: 'DisplayName',
-                            defaultValue: ''
+                            defaultValue: '',
+                            type: "string"
                         },
                         'Username': {
                             field: 'Username',
-                            defaultValue: ''
+                            defaultValue: '',
+                            type: "string"
                         },
+                        'Email': {
+                            field: 'Email',
+                            defaultValue: '',
+                            type: "string"
+                        },
+                        'CreatedAt': {
+                            field: 'CreatedAt',
+                            defaultValue: '',
+                            type: "date"
+                        },
+                        'observacion': {
+                            field: 'observacion',
+                            defaultValue: '',
+                            type: "string"
+                        },
+                        'estado': {
+                            field: 'estado',
+                            defaultValue: '',
+                            type: "string"
+                        }
                     },
-                    icon: function() {
+                    icon: function () {
                         var i = 'globe';
                         return kendo.format('km-icon km-{0}', i);
                     }
@@ -145,7 +169,7 @@ app.localization.registerView('usuarios');
         /// end data sources
         usuariosModel = kendo.observable({
             _dataSourceOptions: dataSourceOptions,
-            searchChange: function(e) {
+            searchChange: function (e) {
                 var searchVal = e.target.value,
                     searchFilter;
 
@@ -158,7 +182,7 @@ app.localization.registerView('usuarios');
                 }
                 fetchFilteredData(usuariosModel.get('paramFilter'), searchFilter);
             },
-            fixHierarchicalData: function(data) {
+            fixHierarchicalData: function (data) {
                 var result = {},
                     layout = {};
 
@@ -209,17 +233,71 @@ app.localization.registerView('usuarios');
 
                 return result;
             },
-            itemClick: function(e) {
+            itemClick: function (e) {
                 var dataItem = e.dataItem || usuariosModel.originalItem;
 
                 app.mobileApp.navigate('#components/usuarios/details.html?uid=' + dataItem.uid);
 
             },
-            editClick: function() {
+            generarExcel: function (e) {
+                console.log(usuariosModel.get('dataSource'));
+
+                var rows = [{
+                    cells: [
+                        { value: "DNI" },
+                        { value: "TELEFONO" },
+                        { value: "CORREO" },
+                        { value: "FECHA DE REGISTRO" },
+                        { value: "OBSERVACION" },
+                        { value: "ESTADO" }
+                    ]
+                }];
+
+                //using fetch, so we can process the data when the request is successfully completed
+                usuariosModel.get('dataSource').fetch(function () {
+                    var data = this.data();
+                    for (var i = 0; i < data.length; i++) {
+                        //push single row for every record
+                        rows.push({
+                            cells: [
+                                { value: data[i].Username },
+                                { value: data[i].DisplayName },
+                                { value: data[i].Email },
+                                { value: data[i].CreatedAt },
+                                { value: data[i].observacion },
+                                { value: data[i].estado }
+                            ]
+                        })
+                    }
+                    var workbook = new kendo.ooxml.Workbook({
+                        sheets: [
+                            {
+                                columns: [
+                                    // Column settings (width)
+                                    { autoWidth: true },
+                                    { autoWidth: true },
+                                    { autoWidth: true },
+                                    { autoWidth: true },
+                                    { autoWidth: true }
+                                ],
+                                // Title of the sheet
+                                title: "Usuarios",
+                                // Rows of the sheet
+                                rows: rows
+                            }
+                        ]
+                    });
+                    //save the file as Excel file with extension xlsx
+                    kendo.saveAs({ dataURI: workbook.toDataURL(), fileName: "Reporte.xlsx" });
+                });
+
+
+            },
+            editClick: function () {
                 var uid = this.originalItem.uid;
                 app.mobileApp.navigate('#components/usuarios/edit.html?uid=' + uid);
             },
-            detailsShow: function(e) {
+            detailsShow: function (e) {
                 var uid = e.view.params.uid,
                     dataSource = usuariosModel.get('dataSource'),
                     itemModel = dataSource.getByUid(uid);
@@ -229,7 +307,7 @@ app.localization.registerView('usuarios');
                 /// start detail form show
                 /// end detail form show
             },
-            setCurrentItemByUid: function(uid) {
+            setCurrentItemByUid: function (uid) {
                 var item = uid,
                     dataSource = usuariosModel.get('dataSource'),
                     itemModel = dataSource.getByUid(item);
@@ -248,7 +326,7 @@ app.localization.registerView('usuarios');
 
                 return itemModel;
             },
-            linkBind: function(linkString) {
+            linkBind: function (linkString) {
                 var linkChunks = linkString.split('|');
                 if (linkChunks[0].length === 0) {
                     return this.get('currentItem.' + linkChunks[1]);
@@ -266,7 +344,7 @@ app.localization.registerView('usuarios');
         /// start edit model functions
         /// end edit model functions
         editFormData: {},
-        onShow: function(e) {
+        onShow: function (e) {
             var that = this,
                 itemUid = e.view.params.uid,
                 dataSource = usuariosModel.get('dataSource'),
@@ -287,11 +365,11 @@ app.localization.registerView('usuarios');
             /// start edit form show
             /// end edit form show
         },
-        linkBind: function(linkString) {
+        linkBind: function (linkString) {
             var linkChunks = linkString.split(':');
             return linkChunks[0] + ':' + this.get('itemData.' + linkChunks[1]);
         },
-        onSaveClick: function(e) {
+        onSaveClick: function (e) {
             var that = this,
                 editFormData = this.get('editFormData'),
                 itemData = this.get('itemData'),
@@ -306,14 +384,14 @@ app.localization.registerView('usuarios');
             function editModel(data) {
                 /// start edit form data prepare
                 /// end edit form data prepare
-                dataSource.one('sync', function(e) {
+                dataSource.one('sync', function (e) {
                     /// start edit form data save success
                     /// end edit form data save success
 
                     app.mobileApp.navigate('#:back');
                 });
 
-                dataSource.one('error', function() {
+                dataSource.one('error', function () {
                     dataSource.cancelChanges(itemData);
                 });
 
@@ -326,7 +404,7 @@ app.localization.registerView('usuarios');
             editModel();
             /// end edit form save handler
         },
-        onCancel: function() {
+        onCancel: function () {
             /// start edit form cancel
             /// end edit form cancel
         }
@@ -345,7 +423,7 @@ app.localization.registerView('usuarios');
         parent.set('usuariosModel', usuariosModel);
     }
 
-    parent.set('onShow', function(e) {
+    parent.set('onShow', function (e) {
         var param = e.view.params.filter ? JSON.parse(e.view.params.filter) : null,
             isListmenu = false,
             backbutton = e.view.element && e.view.element.find('header [data-role="navbar"] .backButtonWrapper'),
@@ -377,3 +455,8 @@ app.localization.registerView('usuarios');
 // Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes
 
 // END_CUSTOM_CODE_usuariosModel
+
+
+function generarExcel() {
+
+}

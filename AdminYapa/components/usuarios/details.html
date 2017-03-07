@@ -10,12 +10,24 @@
     <div class="details-content screen__content screen__content--details">
         <div class="km-listview-wrapper">
             <ul class="km-listview km-list km-listinset details-fields">
+                <li class="flaticon-new-user" style="text-align:center;font-size: 50px;padding: 0;"></li>
                 <li>
-                    <h3 data-bind="text: currentItem.DisplayName"></h3></li>
+                    <span>DNI:</span><div data-bind="text: currentItem.DisplayName"></div></li>
                 <li>
-                    <div data-bind="html: currentItem.Email"></div>
+                    <span>Teléfono:</span><div data-bind="html: currentItem.Username"></div>
                 </li>
-                <li><img data-bind="attr: { src: currentItem.DisplayNameUrl }" width="100%" height="auto"></li>
+                <li>
+                    <span>Email:</span><div data-bind="html: currentItem.Email"></div>
+                </li>
+                <li>
+                    <span>Fecha de Registro:</span><div data-bind="html: currentItem.CreatedAt"></div>
+                </li>
+                <li>
+                    <span>Observación:</span><div data-bind="html: currentItem.observacion"></div>
+                </li>
+                <li>
+                    <span>Atendido</span><div data-bind="html: currentItem.estado=='true'?'SI':'NO' "></div>
+                </li>
             </ul>
         </div>
     </div>
