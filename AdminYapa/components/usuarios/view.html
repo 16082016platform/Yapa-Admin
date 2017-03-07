@@ -1,0 +1,40 @@
+<div data-role="view" data-title="View" data-layout="main" data-model="app.usuarios" data-show="app.usuarios.onShow" data-after-show="app.usuarios.afterShow" id="usuariosScreen" class="screen">
+    <header data-role="header">
+        <div data-role="navbar" class="header-text">
+
+            <span data-bind="text: strings.usuarios.title"></span>
+
+            <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="left" data-icon="drawer-button"></a>
+
+        </div>
+    </header>
+
+
+    <!-- START_CUSTOM_CODE_usuarios -->
+    <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
+
+    <!-- END_CUSTOM_CODE_usuarios -->
+    <!--  Certain features like grouping and inset styling are not supported when endless scroll is enabled. -->
+    <form class="km-filter-form custom-filter">
+        <div class="km-filter-wrap">
+            <input type="search" placeholder="Search..." data-bind="events:{keyup: usuariosModel.searchChange}">
+        </div>
+    </form>
+    <ul class="masterDetailView" data-role="listview" data-auto-bind="false" data-style="" data-template="usuariosModelTemplate" data-bind="source: usuariosModel.dataSource, events: {click: usuariosModel.itemClick}" data-pull-to-refresh="true" data-endless-scroll="true">
+    </ul>
+
+
+    <!-- START_CUSTOM_CODE_usuariosModel -->
+    <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
+
+    <!-- END_CUSTOM_CODE_usuariosModel -->
+    <script type="text/x-kendo-template" id="usuariosModelTemplate">
+        <div class="image-with-text">
+            # data = app.usuarios.usuariosModel.fixHierarchicalData(data); #
+
+            <img src="#: data['DisplayNameUrl'] #">
+            <h3><span class="#: data.icon() #"></span>#: data['DisplayName'] #</h3>
+            <p>#: data['Username'] #</p>
+        </div>
+    </script>
+</div>

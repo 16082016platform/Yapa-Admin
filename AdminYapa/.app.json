@@ -3,21 +3,91 @@
   "views": [
     {
       "type": "kendo-ui-mobile:view",
-      "name": "home",
-      "components": [],
-      "title": "Home View",
+      "name": "usuarios",
+      "components": [
+        {
+          "type": "kendo-ui-mobile:editableList",
+          "listExtraFields": [],
+          "detailExtraFields": [],
+          "addScreenExtraFields": [],
+          "editScreenExtraFields": [],
+          "components": [
+            {
+              "type": "kendo-ui-mobile:editableListForm",
+              "components": [
+                {
+                  "type": "kendo-ui-mobile:editableListFormField",
+                  "name": "estado",
+                  "dataBindingRelationChildren": "[]",
+                  "dataBindingMultipleSelectChildren": "[]",
+                  "title": "Respondido",
+                  "inputType": "switch",
+                  "dataBinding": "estado"
+                },
+                {
+                  "type": "kendo-ui-mobile:editableListFormField",
+                  "name": "observacion",
+                  "dataBindingRelationChildren": "[]",
+                  "dataBindingMultipleSelectChildren": "[]",
+                  "title": "Observacion",
+                  "inputType": "textArea",
+                  "wideFieldTitlePosition": "top",
+                  "dataBinding": "observacion"
+                }
+              ],
+              "name": "editableListForm2",
+              "formType": "edit"
+            }
+          ],
+          "name": "usuariosModel",
+          "dataProvider": "backendServices",
+          "collection": "Users",
+          "group": "DisplayName",
+          "filterField": "DisplayName",
+          "headerField": "DisplayName",
+          "iconField": true,
+          "imageField": "DisplayName",
+          "subHeaderField": "Username",
+          "addItemForm": false,
+          "editItemForm": true,
+          "editScreenHeaderSource": "static",
+          "editScreenHeaderValue": "Editar usuario",
+          "deleteItemButton": false,
+          "pullToRefresh": true,
+          "endlessScroll": true,
+          "isMapView": false,
+          "geoPointFieldAdditional": "DisplayName",
+          "serverSideSorting": true,
+          "serverSideSortingField": "CreatedAt",
+          "serverSideSortingDirection": "asc",
+          "serverSidePaging": false,
+          "detailHeaderFieldSource": "dataBound",
+          "detailHeaderField": "DisplayName",
+          "detailSubHeaderField": "DisplayName",
+          "detailDescriptionField": "Email",
+          "detailImageField": "DisplayName"
+        }
+      ],
+      "title": "Usuarios",
       "addToNavigation": true,
-      "icon": "home"
+      "icon": "contacts"
     }
   ],
-  "dataProviders": [],
+  "dataProviders": [
+    {
+      "type": "kendo-ui-mobile:dataProvider",
+      "name": "backendServices",
+      "source": "everlive",
+      "everliveKey": "icceqiesmhuda3xj",
+      "offlineStorage": true,
+      "title": "Backend Services"
+    }
+  ],
   "name": "kendoUiMobileApp",
-  "navigation": "tabstrip",
-  "view": "home",
-  "transition": "slide",
-  "showMoreTab": true,
+  "navigation": "drawer",
+  "view": "usuarios",
   "skin": "nova",
-  "skinMainColor": "#32364c",
+  "skinMainColor": "#2e2c76",
   "skinTextColor": "#ffffff",
-  "skinAccentColor": "#ff4350"
+  "skinAccentColor": "#ee1d23"
 }

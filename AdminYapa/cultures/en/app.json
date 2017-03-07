@@ -4,7 +4,19 @@
     "showMoreTitle": "Show More",
     "qrCodeScan": "Scan"
   },
-  "home": {
-    "title": "Home View"
+  "usuarios": {
+    "title": "Usuarios",
+    "usuariosModel": {
+      "editScreenHeaderValue": "Editar usuario",
+      "editableListForm2": {
+        "observacion": {
+          "title": "Observacion",
+          "placeholder": "Ingrese una observación"
+        },
+        "estado": {
+          "title": "Respondido"
+        }
+      }
+    }
   }
 }
