@@ -90,6 +90,7 @@ app.localization.registerView('usuarios');
             },
             change: function (e) {
                 var data = this.data();
+                var total = 0;
                 for (var i = 0; i < data.length; i++) {
                     var dataItem = data[i];
 
@@ -98,11 +99,20 @@ app.localization.registerView('usuarios');
 
                     dataItem['CreatedAt'] = kendo.toString(new Date(dataItem['CreatedAt']), "dddd dd/MM/yyyy  hh:mm tt");
 
+                    total = data.length;
+
+                    dataItem['total'] = total;
+
+                    dataItem['observacion'] = (dataItem['observacion'] ? dataItem['observacion'] : "");
+
                     /// start flattenLocation property
                     flattenLocationProperties(dataItem);
                     /// end flattenLocation property
 
                 }
+
+                $("#cantidadRegistros").text("Cantidad de usuarios: " + total);
+
             },
             error: function (e) {
 
@@ -175,7 +185,7 @@ app.localization.registerView('usuarios');
 
                 if (searchVal) {
                     searchFilter = {
-                        field: 'DisplayName',
+                        field: 'Username',
                         operator: 'contains',
                         value: searchVal
                     };
@@ -240,7 +250,10 @@ app.localization.registerView('usuarios');
 
             },
             generarExcel: function (e) {
-                alert("Generando xls");
+                // var excelFileContent = e.workbook.toDataURL();
+
+                // write excelFileContent to a file
+                //.....
 
                 var rows = [{
                     cells: [
@@ -290,9 +303,10 @@ app.localization.registerView('usuarios');
                     //save the file as Excel file with extension xlsx
                     kendo.saveAs({ dataURI: workbook.toDataURL(), fileName: "Reporte.xlsx" });
 
-                    alert("Fin");
                 });
 
+
+                // e.preventDefault();
 
             },
             editClick: function () {

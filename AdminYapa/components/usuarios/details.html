@@ -1,4 +1,4 @@
-<div data-role="view" data-title="Details" data-model="app.usuarios.usuariosModel" data-bind="events: { show: detailsShow }" id="usuariosModelScreen" class="screen screen--detail">
+<div data-role="view" data-title="Details" data-model="app.usuarios.usuariosModel" data-bind="events: { show: detailsShow }" id="usuariosModelScreen" class="screen screen--detail" data-transition="slide">
     <header data-role="header">
         <div data-role="navbar" class="header-text">
             <a data-role="backbutton" data-align="left">Back</a>
@@ -21,6 +21,9 @@
                 </li>
                 <li>
                     <span>Fecha de Registro:</span><div data-bind="html: currentItem.CreatedAt"></div>
+                </li>
+                <li>
+                    <span>Crédito:</span><div data-bind="html: currentItem.credito"></div>
                 </li>
                 <li>
                     <span>Observación:</span><div data-bind="html: currentItem.observacion"></div>

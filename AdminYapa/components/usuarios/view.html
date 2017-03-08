@@ -1,16 +1,16 @@
 <div data-role="view" data-title="View" data-layout="main" data-model="app.usuarios" data-show="app.usuarios.onShow" data-after-show="app.usuarios.afterShow" id="usuariosScreen" class="screen">
     <header data-role="header">
         <div data-role="navbar" class="header-text">
-
             <span>Usuarios</span>
-
             <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="left"><span class="flaticon-three"></span></a>
-
-            <a data-role="button" data-rel="drawer" data-align="right" data-bind="source: usuariosModel.dataSource, events: {click: usuariosModel.generarExcel}"><span class="flaticon-excel-file"></span></a>
-
+            <!--<a data-role="button" data-rel="drawer" data-align="right" data-bind="source: usuariosModel.dataSource, events: {click: usuariosModel.generarExcel}"><span class="flaticon-excel-file"></span></a>-->
         </div>
     </header>
-
+    <header data-role="footer">
+        <div data-role="navbar" class="header-text">
+            <span id="cantidadRegistros"></span>
+        </div>
+    </header>
 
     <!-- START_CUSTOM_CODE_usuarios -->
     <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
@@ -19,7 +19,7 @@
     <!--  Certain features like grouping and inset styling are not supported when endless scroll is enabled. -->
     <form class="km-filter-form custom-filter">
         <div class="km-filter-wrap">
-            <input type="search" placeholder="Search..." data-bind="events:{keyup: usuariosModel.searchChange}">
+            <input type="search" placeholder="Búscar por DNI" data-bind="events:{keyup: usuariosModel.searchChange}">
         </div>
     </form>
     <ul class="masterDetailView" data-role="listview" data-auto-bind="false" data-style="" data-template="usuariosModelTemplate" data-bind="source: usuariosModel.dataSource, events: {click: usuariosModel.itemClick}" data-pull-to-refresh="true" data-endless-scroll="true">
@@ -36,10 +36,10 @@
                 <table style="width:100%">
                     <tr>
                         <td rowspan="3" class="flaticon-new-user" style="width:1px;font-size:50px;"></td>
-                        <td>#: data['Username'] #</td>
+                        <td>Dni: #: data['Username'] #</td>
                     </tr>
                     <tr>
-                        <td>#: data['DisplayName'] #</td>
+                        <td>Teléfono: #: data['DisplayName'] #</td>
                     </tr>
                     <tr>
                         <td>#: data['CreatedAt'] #</td>
