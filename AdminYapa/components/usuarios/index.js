@@ -250,10 +250,7 @@ app.localization.registerView('usuarios');
 
             },
             generarExcel: function (e) {
-                // var excelFileContent = e.workbook.toDataURL();
-
-                // write excelFileContent to a file
-                //.....
+                kendo.mobile.application.showLoading();
 
                 var rows = [{
                     cells: [
@@ -301,12 +298,13 @@ app.localization.registerView('usuarios');
                         ]
                     });
                     //save the file as Excel file with extension xlsx
-                    kendo.saveAs({ dataURI: workbook.toDataURL(), fileName: "Reporte.xlsx" });
+                    // kendo.saveAs({ dataURI: workbook.toDataURL(), fileName: "Reporte.xlsx" });
+
+                    writeFile(workbook.toDataURL());
 
                 });
 
 
-                // e.preventDefault();
 
             },
             editClick: function () {
@@ -471,8 +469,55 @@ app.localization.registerView('usuarios');
 // Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes
 
 // END_CUSTOM_CODE_usuariosModel
+function writeFile(archivo) {
+    var type = window.TEMPORARY;
+    var size = 5 * 1024 * 1024;
+    var name = 'log.xlsx';
+    window.requestFileSystem(type, size, successCallback, errorCallback)
+
+    function successCallback(fs) {
+
+        fs.root.getFile(name, { create: true }, function (fileEntry) {
+
+            fileEntry.createWriter(function (fileWriter) {
+                fileWriter.onwriteend = function (e) {
+                    $("#linkExcel").attr("href",fs.root.nativeURL+name);
+                    $("#linkExcel").text(fs.root.nativeURL+name);
+                    
+                    openExcel(fs.root.nativeURL+name);
+
+                    // alert(JSON.stringify(fs.root.nativeURL+name));
+
+                };
+
+                fileWriter.onerror = function (e) {
+                    alert('Write failed: ' + e.toString());
+                };
+
+                fileWriter.write(archivo);
+            }, errorCallback);
+
+        }, errorCallback);
+        kendo.mobile.application.hideLoading();
+    }
+
+    function errorCallback(error) {
+        kendo.mobile.application.hideLoading();
+        alert("ERROR: " + error.code);
+    }
+}
 
 
-function generarExcel() {
+function openExcel(ruta) {
+    var onSuccess = function (data) {
+        alert('extension: ' + data.extension + '\n' +
+            'canBeOpen: ' + data.canBeOpen);
+    };
 
+    // onError Callback receives a json object
+    //
+    function onError(error) {
+        alert('message: ' + error.message);
+    }
+    window.cordova.plugins.FileOpener.canOpenFile(ruta, onSuccess, onError);
 }
